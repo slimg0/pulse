@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#04050d">
+<title>Pulse</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<!-- in-run HUD -->
+<div id="hud" class="hidden">
+  <div id="tutHint" class="hidden"><div id="tutText"></div><div id="tutStep"></div></div>
+  <div id="score">0</div>
+  <div id="comboTxt"></div>
+  <div id="shields"></div>
+</div>
+
+<!-- main menu -->
+<div id="menu" class="screen">
+  <div class="top">
+    <div class="logo">PULSE</div>
+    <div class="tag" data-i18n="tag"></div>
+  </div>
+  <div class="bottom">
+    <div class="best"><span data-i18n="best"></span> <b id="menuBest">0</b></div>
+    <button id="btnPlay" class="btn primary huge" data-i18n="play"></button>
+    <div class="row icons">
+      <button id="btnShop" class="btn ghost" data-i18n="shop"></button>
+      <button id="btnDaily" class="btn ghost"><span data-i18n="daily"></span><i id="dailyDot" class="dot hidden"></i></button>
+      <button id="btnSettings" class="btn ghost sq" aria-label="Settings">⚙</button>
+    </div>
+  </div>
+  <div class="wallet"><i class="gem"></i><b class="shardCount">0</b></div>
+</div>
+
+<!-- analytics opt-in (only shown on a device with analytics enabled) -->
+<div id="consent" class="screen hidden">
+  <div class="panel">
+    <div class="kicker" data-i18n="consentTitle"></div>
+    <div class="sub" data-i18n="consentBody"></div>
+    <div class="row">
+      <button id="consentNo" class="btn ghost" data-i18n="consentNo"></button>
+      <button id="consentYes" class="btn ghost" data-i18n="consentYes"></button>
+    </div>
+  </div>
+</div>
+
+<!-- game over -->
+<div id="over" class="screen hidden">
+  <div class="panel">
+    <div class="kicker" id="overMsg"></div>
+    <div class="bigScore" id="overScore">0</div>
+    <div class="sub" id="overBest"></div>
+    <div class="earn">+<b id="overEarn">0</b> <i class="gem"></i></div>
+    <button id="btnRevive" class="btn ad"><span>▶ <span data-i18n="continueRun"></span></span><small data-i18n="watchVideo"></small></button>
+    <button id="btnDouble" class="btn ad"></button>
+    <button id="btnAgain" class="btn primary" data-i18n="playAgain"></button>
+    <div class="row">
+      <button id="btnShop2" class="btn ghost" data-i18n="shop"></button>
+      <button id="btnHome" class="btn ghost" data-i18n="menu"></button>
+    </div>
+    <div id="goal" class="goal"></div>
+  </div>
+</div>
+
+<!-- shop -->
+<div id="shop" class="screen hidden">
+  <div class="shopHead">
+    <button id="shopClose" class="btn ghost sq" aria-label="Close">✕</button>
+    <div class="tabs">
+      <button class="tab on" data-tab="skins" data-i18n="tabSkins"></button>
+      <button class="tab" data-tab="boosts" data-i18n="tabBoosts"></button>
+      <button class="tab" data-tab="store" data-i18n="tabStore"></button>
+    </div>
+    <div class="wallet inline"><i class="gem"></i><b class="shardCount">0</b></div>
+  </div>
+  <div id="shopBody"></div>
+</div>
+
+<!-- settings -->
+<div id="settings" class="screen hidden">
+  <div class="panel">
+    <div class="kicker" data-i18n="settings"></div>
+    <button id="setSound" class="btn ghost wide"></button>
+    <button id="setHaptics" class="btn ghost wide"></button>
+    <button id="setLang" class="btn ghost wide"></button>
+    <button id="setStats" class="btn ghost wide"></button>
+    <button id="setRestore" class="btn ghost wide" data-i18n="restore"></button>
+    <button id="setPrivacy" class="btn ghost wide" data-i18n="adPrivacy"></button>
+    <a id="setPolicy" class="link" href="#" target="_blank" rel="noopener" data-i18n="policy"></a>
+    <button id="setClose" class="btn primary wide" data-i18n="done"></button>
+  </div>
+</div>
+
+<!-- simulated ad (browser/test only; real ads are native) -->
+<div id="adModal" class="screen hidden">
+  <div class="panel">
+    <div class="kicker" id="adLabel"></div>
+    <div class="adBox"><div id="adBar"></div></div>
+    <div class="sub" data-i18n="adTest"></div>
+    <button id="adClose" class="btn primary wide" disabled></button>
+    <button id="adSkip" class="link" data-i18n="skip"></button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/economy.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/monetization.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/game.js"></script>
+<script src="js/boot.js"></script>
+</body>
+</html>
