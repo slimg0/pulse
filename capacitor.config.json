@@ -1,0 +1,9 @@
+{
+  "appId": "com.sgray.pulse",
+  "appName": "Pulse",
+  "webDir": "www",
+  "backgroundColor": "#04050d",
+  "ios": {
+    "contentInset": "never"
+  }
+}

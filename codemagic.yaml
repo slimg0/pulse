@@ -1,0 +1,50 @@
+workflows:
+  ios-testflight:
+    name: Pulse iOS to TestFlight
+    max_build_duration: 45
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: Pulse-ASC        # name you give the API key in Codemagic (step 4 of SETUP-IOS.md)
+    environment:
+      node: 20
+      xcode: latest
+      vars:
+        APP_STORE_APPLE_ID: "REPLACE_WITH_NUMERIC_APPLE_ID"   # App Store Connect > App > General > Apple ID
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.sgray.pulse
+    scripts:
+      - name: Install dependencies and build web assets
+        script: |
+          npm install
+          npm run build:web
+      - name: Create iOS project and configure Info.plist
+        script: |
+          npx cap add ios
+          PLIST=ios/App/App/Info.plist
+          # AdMob app ID: Google TEST id. Replace with your real iOS AdMob app ID before release.
+          /usr/libexec/PlistBuddy -c "Add :GADApplicationIdentifier string ca-app-pub-3940256099942544~1458002511" "$PLIST"
+          /usr/libexec/PlistBuddy -c "Add :NSUserTrackingUsageDescription string This lets us show ads that are more relevant to you." "$PLIST"
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" "$PLIST"
+          npx cap sync ios
+      - name: Apply code signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "com.sgray.pulse" --type IOS_APP_STORE --create
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Increment build number
+        script: |
+          cd ios/App
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" 2>/dev/null || echo 0)
+          agvtool new-version -all $(( ${LATEST:-0} + 1 ))
+      - name: Build IPA
+        script: |
+          xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "App"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
